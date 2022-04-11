@@ -1,0 +1,33 @@
+{
+  "name": "digitickets/omnipay-paymentsense-connect-e",
+  "type": "library",
+  "description": "Connect-e payment driver for omnipay, aka Cybersource",
+  "keywords": [
+    "connect-e",
+    "payment-gateway",
+    "cybersource",
+    "omnipay"
+  ],
+  "homepage": "https://github.com/digitickets/omnipay-paymentsense-connect-e",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "DigiTickets\\OmnipayPaymentsenseConnectE\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "DigiTickets\\OmnipayPaymentsenseConnectE\\": "tests/"
+    }
+  },
+  "require": {
+    "omnipay/common": "^2.0",
+    "php": "^7"
+  },
+  "require-dev": {
+    "omnipay/tests": "^2.0",
+    "mockery/mockery": "~0.8"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
