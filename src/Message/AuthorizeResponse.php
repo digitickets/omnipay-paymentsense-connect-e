@@ -39,14 +39,11 @@ class AuthorizeResponse extends AbstractResponse
     }
 
     /**
-     * Note this gateway tends to respond as plain text (which omnipay doesn't seem to support),
-     *  so this won't return much useful
-     *
      * @return string|null
      */
     public function getMessage()
     {
-        return json_encode($this->data) ?? '';
+        return 'Authed with gateway, expires '.$this->getExpiresAt();
     }
 
     /**
