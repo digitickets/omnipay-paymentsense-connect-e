@@ -50,13 +50,9 @@ class AcceptNotificationResponse extends AbstractResponse
         return $this->data["crossReference"] ?? '';
     }
 
-    /**
-     * displays failure message to the user for
-     * failed payment
-     */
     public function getMessage(): string
     {
-        if($this->getCode() != null) {
+        if($this->getCode() != null && !empty(self::STATUSES[$this->getCode()])) {
             $message = self::STATUSES[$this->getCode()] ?? '';
             return ($this->data["message"] ?? '') . " - " . $message;
         } else {
