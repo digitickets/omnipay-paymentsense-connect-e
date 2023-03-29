@@ -50,13 +50,14 @@ class AcceptNotificationResponse extends AbstractResponse
         return $this->data["crossReference"] ?? '';
     }
 
+
     public function getMessage(): string
     {
-        if(getCode != null) {
+        if($this->getCode() != null) {
             $message = self::STATUSES[$this->getCode()];
             return ($this->data["message"] ?? '') . " - " . $message;
         } else {
-            return "message";
+            return $this->data["message"] ?? '';
         }
     }
 
