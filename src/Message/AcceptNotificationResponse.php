@@ -53,8 +53,7 @@ class AcceptNotificationResponse extends AbstractResponse
     public function getMessage(): string
     {
         if($this->getCode() != null && !empty(self::STATUSES[$this->getCode()])) {
-            $message = self::STATUSES[$this->getCode()] ?? '';
-            return ($this->data["message"] ?? '') . " - " . $message;
+            return ($this->data["message"] ?? ''). " - ".self::STATUSES[$this->getCode()];
         } else {
             return $this->data["message"] ?? '';
         }
