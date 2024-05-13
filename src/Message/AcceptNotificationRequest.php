@@ -2,6 +2,7 @@
 
 namespace DigiTickets\OmnipayPaymentsenseConnectE\Message;
 
+use Guzzle\Http\Exception\ClientErrorResponseException;
 use RuntimeException;
 
 /**
@@ -40,10 +41,20 @@ class AcceptNotificationRequest extends AbstractConnectERequest
             // We need to "authorise" this transaction (which is just called "resume" really)
             // Note if we don't call this, it will time out after 15mins.
             $path = str_replace('{id}', $token, static::AUTH_PATH);
-            $this->httpClient->post(
-                $this->getEndpoint().$path,
-                $this->getHeaders()
-            )->send();
+            try {
+                $this->httpClient->post(
+                    $this->getEndpoint().$path,
+                    $this->getHeaders()
+                )->send();
+            } catch (ClientErrorResponseException $e) {
+                if ($e->getResponse() && $e->getResponse()->getStatusCode() === 400) {
+                    // This can fail with a 400 due to a race condition if you call this twice (e.g. through a redirect then a webhook arriving).
+                    // e.g. the webhook can arrive just before the page redirects, causing the redirect to fail.
+                    // We just get the current status and return that instead below.
+                } else {
+                    throw $e;
+                }
+            }
 
             $json = $this->getStatusJsonFromEndpoint($token);
         }
