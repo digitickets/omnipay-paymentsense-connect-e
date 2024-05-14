@@ -7,6 +7,7 @@ use DigiTickets\OmnipayPaymentsenseConnectE\Message\AuthorizeRefundRequest;
 use DigiTickets\OmnipayPaymentsenseConnectE\Message\AuthorizeRequest;
 use DigiTickets\OmnipayPaymentsenseConnectE\Message\AuthorizeResponse;
 use DigiTickets\OmnipayPaymentsenseConnectE\Message\RefundRequest;
+use DigiTickets\OmnipayPaymentsenseConnectE\Message\VoidRequest;
 use Omnipay\Common\AbstractGateway;
 use Omnipay\Common\Message\RequestInterface;
 use RuntimeException;
@@ -92,6 +93,17 @@ class Gateway extends AbstractGateway
             RefundRequest::class,
             $options
         );
+    }
+
+    public function void(array $options = array()): RequestInterface
+    {
+        $options = array_merge($this->getParameters(), $options);
+
+        return $this->createRequest(
+            VoidRequest::class,
+            $options
+        );
+
     }
 
 

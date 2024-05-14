@@ -32,6 +32,10 @@ It also supports refunds of partial and full amounts.
 
 It only handles card payments.
 
+You can enable the 2 step process instead of 1 step by passing in waitPreExecute=true.
+Make sure to call acceptNotification() to confirm you wish to take the payment. https://docs.connect.paymentsense.cloud/ConnectE/WaitPreExecuteOneOffPayment
+
+
 ## What's Not Included
 
 This driver does not handle any of the other card management operations, such as subscriptions (repeat payments).

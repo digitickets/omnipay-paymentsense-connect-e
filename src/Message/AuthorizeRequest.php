@@ -3,6 +3,7 @@
 namespace DigiTickets\OmnipayPaymentsenseConnectE\Message;
 
 use Omnipay\Common\Exception\InvalidRequestException;
+use RuntimeException;
 
 class AuthorizeRequest extends AbstractConnectERequest
 {
@@ -20,7 +21,7 @@ class AuthorizeRequest extends AbstractConnectERequest
 
         if (($card->getBillingCountry() && !is_numeric($card->getBillingCountry())) ||
             ($card->getBillingCountry() && !is_numeric($card->getBillingCountry()))) {
-            throw new \RuntimeException("Country must be a numeric ISO 3166-1 code");
+            throw new RuntimeException("Country must be a numeric ISO 3166-1 code");
         }
 
         return [
@@ -51,7 +52,21 @@ class AuthorizeRequest extends AbstractConnectERequest
                     'countryCode' => $card->getShippingCountry(),
                 ],
             ],
+            'waitPreExecute' => $this->getWaitPreExecute(),
         ];
+    }
+
+    public function setWaitPreExecute(bool $value)
+    {
+        return $this->setParameter('waitPreExecute', $value);
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getWaitPreExecute()
+    {
+        return $this->getParameter('waitPreExecute');
     }
 
     public function sendData($data): AuthorizeResponse
