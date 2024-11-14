@@ -6,6 +6,10 @@ use Omnipay\Common\Message\AbstractRequest;
 
 abstract class AbstractConnectERequest extends AbstractRequest
 {
+
+    const STATUS_WAITING_PRE_EXECUTE = 99;
+    const STATUS_PATH = '/v1/payments/{id}';
+
     protected $liveEndpoint = 'https://e.connect.paymentsense.cloud';
     protected $testEndpoint = 'https://e.test.connect.paymentsense.cloud';
 
@@ -46,5 +50,18 @@ abstract class AbstractConnectERequest extends AbstractRequest
     public function getJwt()
     {
         return $this->getParameter('jwt');
+    }
+
+
+    public function getStatusJsonFromEndpoint(string $token): array
+    {
+        $path = str_replace('{id}', $token, static::STATUS_PATH);
+        $httpResponse = $this->httpClient->get(
+            $this->getEndpoint().$path,
+            $this->getHeaders()
+        )->send();
+        $json = $httpResponse->json();
+
+        return $json;
     }
 }

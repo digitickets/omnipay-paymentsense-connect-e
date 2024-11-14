@@ -11,8 +11,6 @@ use RuntimeException;
  */
 class AcceptNotificationRequest extends AbstractConnectERequest
 {
-    const STATUS_WAITING_PRE_EXECUTE = 99;
-    const STATUS_PATH = '/v1/payments/{id}';
     const AUTH_PATH = '/v1/payments/{id}/resume';
 
     /**
@@ -65,16 +63,5 @@ class AcceptNotificationRequest extends AbstractConnectERequest
         );
     }
 
-    private function getStatusJsonFromEndpoint(string $token): array
-    {
-        $path = str_replace('{id}', $token, static::STATUS_PATH);
-        $httpResponse = $this->httpClient->get(
-            $this->getEndpoint().$path,
-            $this->getHeaders()
-        )->send();
-        $json = $httpResponse->json();
-
-        return $json;
-    }
 
 }

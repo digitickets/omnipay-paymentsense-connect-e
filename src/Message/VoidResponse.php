@@ -9,7 +9,7 @@ class VoidResponse extends AbstractResponse
 
     public function isSuccessful(): bool
     {
-        return true;
+        return !empty($this->data['success']);
     }
 
     public function isRedirect(): bool
@@ -22,7 +22,7 @@ class VoidResponse extends AbstractResponse
      */
     public function getMessage()
     {
-        return 'Revoked';
+        return !empty($this->data['success']) ? 'Revoked' : 'Failed Revoke';
     }
 
     /**
