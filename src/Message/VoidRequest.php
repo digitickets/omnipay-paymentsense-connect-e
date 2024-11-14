@@ -26,19 +26,19 @@ class VoidRequest extends AbstractConnectERequest
         }
 
         $json = $this->getStatusJsonFromEndpoint($token);
-        if (!$json || empty($json['statusCode']) || $json['statusCode'] != AcceptNotificationRequest::STATUS_WAITING_PRE_EXECUTE){
+        if (!$json || empty($json['statusCode']) || $json['statusCode'] != AcceptNotificationRequest::STATUS_WAITING_PRE_EXECUTE) {
             // This is not a "resumable" transaction (probably a wallet payment). This is already confirmed so couldn't be revoked (i.e. we'll need to confirm the payment)
             // Please continue to call acceptNotification() in this case, to pick up any other statuses properly.
             return $this->response = new VoidResponse(
                 $this,
-                ['success' => false]
+                ['success' => false, 'statusCode' => $json['statusCode'] ?? '']
             );
         }
 
         // If the status is STATUS_WAITING_PRE_EXECUTE, then we just won't call resume, and this will cause the payment to expire, unpaid.
         return $this->response = new VoidResponse(
             $this,
-            ['success' => true]
+            ['success' => true, 'statusCode' => $json['statusCode']]
         );
     }
 

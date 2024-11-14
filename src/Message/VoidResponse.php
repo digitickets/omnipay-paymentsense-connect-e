@@ -30,7 +30,7 @@ class VoidResponse extends AbstractResponse
      */
     public function getCode()
     {
-        return '';
+        return $this->data['statusCode'] ?? '';
     }
 
 }
